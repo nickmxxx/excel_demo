@@ -15,6 +15,7 @@ print(ws0.cell(3, 1).value)
 wb1 = openpyxl.Workbook().save("list.xlsx")
 wb1 = openpyxl.load_workbook("list.xlsx")
 ws1 = wb1.active
+# 两个表格同时使用
 for i in range(1, ws0.max_row + 1):
     ws1.cell(i, 1).value = ws0.cell(i, 1).value
 
