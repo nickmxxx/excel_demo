@@ -1,10 +1,13 @@
 import openpyxl
 import os  # 用来统计excel文件数量
+import pandas as pd
+from pandas import DataFrame
+
 print(os.path.abspath('.'))  # 打开文件夹统计xlsx个数
 n = [
     i for i in os.listdir('.')  # 循环查找"."文件
     if os.path.isfile(i) and os.path.splitext(i)[1] == '.xlsx'
-]   # 如果是.xlsx计数 加一得到这些文件 放入字典中【】
+]  # 如果是.xlsx计数 加一得到这些文件 放入字典中【】
 print(n)
 print(len(n))
 print(n[0])
@@ -38,9 +41,14 @@ for i in range(0, len(n)):  # judge2，judge3都循环给总部
     #         if(ws2.cell(j, 1).value == ws1.cell(k, 1).value):  # 判断学号相同
     for j in range(1, 12):
         print(ws2.cell(3, j).value)  # 每个分表第三行赋值给总表
-        ws1.cell(i+3, j).value = ws2.cell(3, j).value
-
-for i in range(3, len(n)+3):
+        ws1.cell(i + 3, j).value = ws2.cell(3, j).value
+# 规范表格内容，如有相同的内容则直接赋值
+for i in range(3, len(n) + 3):
     ws1.cell(i, 1).value = "信息与通信工程学院"
     ws1.cell(i, 5).value = "贺美琛"
 wb1.save("list.xlsx")
+# 进行改进，使用pandas库添加排序功能，此处按照学号进行排序
+cel = pd.read_excel("list.xlsx")
+cel = pd.read_excel("list.xlsx", header=1) #此处header=1 表示第一行为表头
+cel.sort_values(by='学号', inplace=True, ascending=True)
+DataFrame(cel).to_excel('list.xlsx') # 保存命令
